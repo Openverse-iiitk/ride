@@ -2,19 +2,12 @@
 
 A simple, private ride-pooling platform for trusted campuses — web-first PWA backed by a centralized API.
 
-Quick visuals (interactive Miro widgets embedded):
+Quick visuals: see the [Diagrams](#diagrams) section below for links and thumbnails.
 
-<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321821290&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
-
-<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321821290&embedMode=view_only_without_ui&embedId=461261242655">Open visual 1 in Miro</a>
-
-<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321735307&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
-
-<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321735307&embedMode=view_only_without_ui&embedId=461261242655">Open visual 2 in Miro</a>
-
-<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321654483&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
-
-<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321654483&embedMode=view_only_without_ui&embedId=461261242655">Open visual 3 in Miro</a>
+## Diagrams
+- [![Visual 1 — diagram](public/digrams/class.jpg)](https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321821290&embedMode=view_only_without_ui&embedId=461261242655)
+- [![Visual 2 — diagram](public/digrams/activitycase.jpg)](https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321735307&embedMode=view_only_without_ui&embedId=461261242655)
+- [![Visual 3 — diagram](public/digrams/usecase.jpg)](https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321654483&embedMode=view_only_without_ui&embedId=461261242655)
 
 ## What
 
