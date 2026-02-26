@@ -28,6 +28,24 @@ npm run dev
 
 - Next.js PWA frontend; centralized REST API + relational DB as the single source of truth; realtime updates via WebSocket/SSE; college-only access via SSO/allowlist.
 
+## Project Issues & Roadmap
+
+This project uses GitHub Issues for tracking development. A complete issue set with dependencies is available in [`.github/issues.json`](.github/issues.json).
+
+### Create All Issues at Once
+
+To create all 30 issues with dependencies in your repo:
+
+1. Go to **Actions** → **Create Project Issues** workflow
+2. Click **Run workflow** → **Run workflow** (or use dry-run mode to preview)
+3. Issues are created with:
+   - **Categories** (Foundation, Authentication, RideManagement, Booking, Payment, Notification, Frontend, Quality, DevOps)
+   - **Priority labels** (High, Medium, Low)
+   - **Acceptance criteria** for each issue
+   - **Dependency references** for build order
+
+**Note:** The workflow checks for duplicates before creating, so it's safe to run multiple times.
+
 ## Next steps
 
 - Want me to export these Miro frames as images into `public/digrams/` and add thumbnails here?

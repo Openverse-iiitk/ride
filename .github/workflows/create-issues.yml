@@ -1,25 +1,160 @@
-name: Create Issues
+name: Create Project Issues
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview issues without creating (dry run)"
+        required: false
+        default: "false"
 
 jobs:
   create-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install PyYAML PyGithub
-      
-      - name: Create issues
+          python-version: "3.11"
+
+      - name: Create GitHub Issues
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python create_issues.py
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 << 'EOF'
+          import json
+          import subprocess
+          import os
+          import sys
+
+          dry_run = "${{ github.event.inputs.dry_run }}" == "true"
+
+          # Load issues from JSON
+          with open(".github/issues.json", "r") as f:
+              data = json.load(f)
+
+          issues = data["issues"]
+          issue_map = {}  # Maps old ID to new GitHub issue number
+
+          print(f"📋 Project: {data['project']} ({data['version']})")
+          print(f"🎯 Total issues to create: {len(issues)}")
+          print(f"🔍 Dry run: {dry_run}\n")
+
+          # Sort issues by ID to ensure dependencies are created first
+          issues.sort(key=lambda x: x["id"])
+
+          created_count = 0
+          skipped_count = 0
+
+          for issue in issues:
+              issue_id = issue["id"]
+              title = issue["title"]
+              category = issue["category"]
+              priority = issue["priority"]
+              description = issue["description"]
+              acceptance_criteria = issue["acceptance_criteria"]
+              depends_on = issue.get("depends_on", [])
+
+              # Build issue body with metadata
+              body_parts = [
+                  f"**Description:** {description}\n",
+                  "## Acceptance Criteria",
+              ]
+
+              for criterion in acceptance_criteria:
+                  body_parts.append(f"- [ ] {criterion}")
+
+              if depends_on:
+                  body_parts.append("\n## Dependencies")
+                  deps = []
+                  for dep_id in depends_on:
+                      if dep_id in issue_map:
+                          deps.append(f"#{issue_map[dep_id]}")
+                      else:
+                          deps.append(f"Issue #{dep_id}")
+                  body_parts.append(", ".join(deps))
+
+              body = "\n".join(body_parts)
+
+              # Create labels: category and priority
+              labels = [category, priority]
+
+              print(f"[{issue_id}] {title}")
+              print(f"    Category: {category} | Priority: {priority}")
+              if depends_on:
+                  print(f"    Depends on: {depends_on}")
+
+              if dry_run:
+                  print(f"    ✓ (DRY RUN - not created)\n")
+              else:
+                  try:
+                      # Check if issue already exists
+                      result = subprocess.run(
+                          ["gh", "issue", "list", "--search", f'"{title}" in:title', "--json", "number,title"],
+                          capture_output=True,
+                          text=True,
+                          check=True
+                      )
+
+                      existing = json.loads(result.stdout)
+                      if existing:
+                          print(f"    ⏭️  (Already exists as #{existing[0]['number']})\n")
+                          issue_map[issue_id] = existing[0]["number"]
+                          skipped_count += 1
+                      else:
+                          raise Exception("Not found - proceed to create")
+
+                  except Exception:
+                      # Issue doesn't exist, create it
+                      try:
+                          result = subprocess.run(
+                              ["gh", "issue", "create",
+                               "--title", title,
+                               "--body", body,
+                               "--label", ",".join(labels)],
+                              capture_output=True,
+                              text=True,
+                              check=True
+                          )
+
+                          # Extract issue number from output
+                          # Output format: "https://github.com/owner/repo/issues/123"
+                          new_issue_num = int(result.stdout.strip().split("/")[-1])
+                          issue_map[issue_id] = new_issue_num
+
+                          print(f"    ✅ Created as #{new_issue_num}\n")
+                          created_count += 1
+
+                      except subprocess.CalledProcessError as e:
+                          print(f"    ❌ Failed to create: {e.stderr}\n")
+                          sys.exit(1)
+
+          print("\n" + "="*60)
+          print(f"📊 Summary:")
+          print(f"   Created: {created_count} issues")
+          print(f"   Skipped (already exist): {skipped_count} issues")
+          print(f"   Total: {created_count + skipped_count}/{len(issues)}")
+          print("="*60)
+
+          if created_count == 0 and not dry_run:
+              print("\n⚠️  No new issues were created. All issues may already exist.")
+
+          EOF
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "✅ Issue creation workflow completed!"
+          echo ""
+          echo "📌 Next steps:"
+          echo "- Review issues on the GitHub Issues page"
+          echo "- Assign team members to issues"
+          echo "- Plan sprints based on dependencies"
+          echo "- Use dependency ordering for implementation roadmap"

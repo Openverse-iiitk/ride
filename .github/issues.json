@@ -1,0 +1,356 @@
+{
+  "project": "Campus RideShare Beta",
+  "version": "v0.1.0-beta",
+  "issues": [
+    {
+      "id": 1,
+      "title": "Setup Project Repository",
+      "category": "Foundation",
+      "priority": "High",
+      "description": "Initialize monorepo with backend and web folders.",
+      "acceptance_criteria": [
+        "Repository created",
+        "backend/ and web/ directories added",
+        "README with setup instructions"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": 2,
+      "title": "Setup PostgreSQL Database",
+      "category": "Foundation",
+      "priority": "High",
+      "description": "Configure local and staging PostgreSQL instances.",
+      "acceptance_criteria": [
+        "Database accessible",
+        "Migration tool configured"
+      ],
+      "depends_on": [1]
+    },
+    {
+      "id": 3,
+      "title": "Design Initial Database Schema",
+      "category": "Foundation",
+      "priority": "High",
+      "description": "Create tables for User, Ride, Booking.",
+      "acceptance_criteria": [
+        "Tables created",
+        "Foreign keys defined",
+        "Index on destination and departureTime"
+      ],
+      "depends_on": [2]
+    },
+    {
+      "id": 4,
+      "title": "Environment Configuration Setup",
+      "category": "Foundation",
+      "priority": "Medium",
+      "description": "Configure environment variables for dev and prod.",
+      "acceptance_criteria": [
+        "No hardcoded secrets",
+        "Environment validation at startup"
+      ],
+      "depends_on": [1]
+    },
+    {
+      "id": 5,
+      "title": "Basic Backend Server Setup",
+      "category": "Foundation",
+      "priority": "High",
+      "description": "Initialize API server with health endpoint.",
+      "acceptance_criteria": [
+        "Server runs",
+        "/health returns 200"
+      ],
+      "depends_on": [1]
+    },
+    {
+      "id": 6,
+      "title": "Implement User Model",
+      "category": "Authentication",
+      "priority": "High",
+      "description": "Create User entity with persistence.",
+      "acceptance_criteria": [
+        "CRUD operations working"
+      ],
+      "depends_on": [3]
+    },
+    {
+      "id": 7,
+      "title": "College Email Verification",
+      "category": "Authentication",
+      "priority": "High",
+      "description": "Restrict registration to college domain.",
+      "acceptance_criteria": [
+        "Only approved domain allowed",
+        "Verification token expires"
+      ],
+      "depends_on": [6]
+    },
+    {
+      "id": 8,
+      "title": "JWT Authentication",
+      "category": "Authentication",
+      "priority": "High",
+      "description": "Implement JWT-based login sessions.",
+      "acceptance_criteria": [
+        "Token issued on login",
+        "Protected routes validated"
+      ],
+      "depends_on": [6]
+    },
+    {
+      "id": 9,
+      "title": "Role-Based Access Control",
+      "category": "Authentication",
+      "priority": "Medium",
+      "description": "Add admin and user roles.",
+      "acceptance_criteria": [
+        "Admin-only routes restricted"
+      ],
+      "depends_on": [8]
+    },
+    {
+      "id": 10,
+      "title": "Create Ride Model",
+      "category": "RideManagement",
+      "priority": "High",
+      "description": "Implement Ride entity.",
+      "acceptance_criteria": [
+        "Ride saved successfully",
+        "Default status set to Open"
+      ],
+      "depends_on": [3]
+    },
+    {
+      "id": 11,
+      "title": "Post Ride API",
+      "category": "RideManagement",
+      "priority": "High",
+      "description": "Endpoint to create ride.",
+      "acceptance_criteria": [
+        "Auth required",
+        "Cannot create ride in past"
+      ],
+      "depends_on": [8, 10]
+    },
+    {
+      "id": 12,
+      "title": "Search Ride API",
+      "category": "RideManagement",
+      "priority": "High",
+      "description": "Filter rides by destination and date.",
+      "acceptance_criteria": [
+        "Paginated results",
+        "Indexed query performance"
+      ],
+      "depends_on": [10]
+    },
+    {
+      "id": 13,
+      "title": "Seat Availability Logic",
+      "category": "RideManagement",
+      "priority": "High",
+      "description": "Prevent overbooking.",
+      "acceptance_criteria": [
+        "Seats decrement correctly",
+        "Overbooking blocked"
+      ],
+      "depends_on": [10]
+    },
+    {
+      "id": 14,
+      "title": "Ride State Machine",
+      "category": "RideManagement",
+      "priority": "Medium",
+      "description": "Implement ride lifecycle states.",
+      "acceptance_criteria": [
+        "Invalid transitions rejected"
+      ],
+      "depends_on": [10]
+    },
+    {
+      "id": 15,
+      "title": "Ride Cancellation Logic",
+      "category": "RideManagement",
+      "priority": "Medium",
+      "description": "Allow ride creator to cancel.",
+      "acceptance_criteria": [
+        "Only creator can cancel",
+        "Status updated"
+      ],
+      "depends_on": [14]
+    },
+    {
+      "id": 16,
+      "title": "Create Booking Model",
+      "category": "Booking",
+      "priority": "High",
+      "description": "Implement Booking entity.",
+      "acceptance_criteria": [
+        "Foreign keys validated"
+      ],
+      "depends_on": [3]
+    },
+    {
+      "id": 17,
+      "title": "Join Ride API",
+      "category": "Booking",
+      "priority": "High",
+      "description": "Endpoint to join ride.",
+      "acceptance_criteria": [
+        "Cannot book own ride",
+        "Seat availability checked"
+      ],
+      "depends_on": [8, 10, 16, 13]
+    },
+    {
+      "id": 18,
+      "title": "Prevent Double Booking",
+      "category": "Booking",
+      "priority": "Medium",
+      "description": "Ensure user cannot book same ride twice.",
+      "acceptance_criteria": [
+        "DB constraint added"
+      ],
+      "depends_on": [16]
+    },
+    {
+      "id": 19,
+      "title": "Payment Stub Integration",
+      "category": "Payment",
+      "priority": "Medium",
+      "description": "Simulate payment success/failure.",
+      "acceptance_criteria": [
+        "Booking confirmed on success"
+      ],
+      "depends_on": [17]
+    },
+    {
+      "id": 20,
+      "title": "Refund Logic",
+      "category": "Payment",
+      "priority": "Medium",
+      "description": "Handle refunds on cancellation.",
+      "acceptance_criteria": [
+        "Refund processed before deadline"
+      ],
+      "depends_on": [19]
+    },
+    {
+      "id": 21,
+      "title": "Booking Confirmation Notification",
+      "category": "Notification",
+      "priority": "Medium",
+      "description": "Notify user on successful booking.",
+      "acceptance_criteria": [
+        "Email or in-app notification sent"
+      ],
+      "depends_on": [17]
+    },
+    {
+      "id": 22,
+      "title": "Notify Ride Full",
+      "category": "Notification",
+      "priority": "Low",
+      "description": "Notify passengers when ride fills.",
+      "acceptance_criteria": [
+        "Triggered when seats = 0"
+      ],
+      "depends_on": [13]
+    },
+    {
+      "id": 23,
+      "title": "Notify Ride Cancellation",
+      "category": "Notification",
+      "priority": "Medium",
+      "description": "Inform passengers of ride cancellation.",
+      "acceptance_criteria": [
+        "All passengers notified"
+      ],
+      "depends_on": [15]
+    },
+    {
+      "id": 24,
+      "title": "Login & Register UI",
+      "category": "Frontend",
+      "priority": "High",
+      "description": "Implement authentication pages.",
+      "acceptance_criteria": [
+        "Form validation",
+        "Token stored securely"
+      ],
+      "depends_on": [8]
+    },
+    {
+      "id": 25,
+      "title": "Ride Search UI",
+      "category": "Frontend",
+      "priority": "High",
+      "description": "Build ride search interface.",
+      "acceptance_criteria": [
+        "Filters functional",
+        "Loading states shown"
+      ],
+      "depends_on": [12]
+    },
+    {
+      "id": 26,
+      "title": "Post Ride UI",
+      "category": "Frontend",
+      "priority": "High",
+      "description": "Form for creating rides.",
+      "acceptance_criteria": [
+        "Validation implemented",
+        "Success message displayed"
+      ],
+      "depends_on": [11]
+    },
+    {
+      "id": 27,
+      "title": "Booking Flow UI",
+      "category": "Frontend",
+      "priority": "High",
+      "description": "Join ride interface.",
+      "acceptance_criteria": [
+        "Seat availability displayed",
+        "Confirmation shown"
+      ],
+      "depends_on": [17]
+    },
+    {
+      "id": 28,
+      "title": "User Profile Page",
+      "category": "Frontend",
+      "priority": "Medium",
+      "description": "Display user bookings and rides.",
+      "acceptance_criteria": [
+        "Ride history visible"
+      ],
+      "depends_on": [17]
+    },
+    {
+      "id": 29,
+      "title": "Unit Tests for Ride Service",
+      "category": "Quality",
+      "priority": "Medium",
+      "description": "Add test coverage for ride logic.",
+      "acceptance_criteria": [
+        "≥70% coverage"
+      ],
+      "depends_on": [13]
+    },
+    {
+      "id": 30,
+      "title": "CI Pipeline Setup",
+      "category": "DevOps",
+      "priority": "High",
+      "description": "Automate test runs on pull requests.",
+      "acceptance_criteria": [
+        "Tests run on PR",
+        "Build fails on error"
+      ],
+      "depends_on": [1, 29]
+    }
+  ]
+}
