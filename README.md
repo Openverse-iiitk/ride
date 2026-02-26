@@ -1,3 +1,47 @@
+# Ride — Campus Ride Coordination
+
+A simple, private ride-pooling platform for trusted campuses — web-first PWA backed by a centralized API.
+
+Quick visuals (interactive Miro widgets embedded):
+
+<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321821290&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+
+<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321821290&embedMode=view_only_without_ui&embedId=461261242655">Open visual 1 in Miro</a>
+
+<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321735307&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+
+<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321735307&embedMode=view_only_without_ui&embedId=461261242655">Open visual 2 in Miro</a>
+
+<iframe width="768" height="640" src="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321654483&embedMode=view_only_without_ui&embedId=461261242655" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+
+<a href="https://miro.com/app/live-embed/uXjVG69RjQo=/?focusWidget=3458764661321654483&embedMode=view_only_without_ui&embedId=461261242655">Open visual 3 in Miro</a>
+
+## What
+
+Backend-driven ride coordination for campuses (Users, Rides, Bookings, Payments, Ratings). Web-first PWA for fast iteration.
+
+## Quickstart
+
+- Prereqs: Node.js (LTS), npm
+
+Install and run:
+
+```bash
+npm install
+npm run dev
+```
+
+## Tech & Principles
+
+- Next.js PWA frontend; centralized REST API + relational DB as the single source of truth; realtime updates via WebSocket/SSE; college-only access via SSO/allowlist.
+
+## Next steps
+
+- Want me to export these Miro frames as images into `public/digrams/` and add thumbnails here?
+
+---
+
+Built by the Openverse-IIITK community.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
