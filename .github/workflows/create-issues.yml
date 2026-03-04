@@ -24,6 +24,65 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Create Labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 << 'EOF'
+          import subprocess
+          import json
+
+          dry_run = "${{ github.event.inputs.dry_run }}" == "true"
+
+          # Define all labels with colors
+          labels = {
+              # Categories
+              "Foundation": {"color": "0e10e8", "description": "Core project setup and infrastructure"},
+              "Authentication": {"color": "1f6feb", "description": "User auth, verification, and access control"},
+              "RideManagement": {"color": "0ea5e9", "description": "Ride creation, search, and lifecycle"},
+              "Booking": {"color": "06b6d4", "description": "Booking and seat management"},
+              "Payment": {"color": "10b981", "description": "Payment processing and refunds"},
+              "Notification": {"color": "f59e0b", "description": "User notifications and alerts"},
+              "Frontend": {"color": "8b5cf6", "description": "UI and frontend components"},
+              "Quality": {"color": "ec4899", "description": "Testing and quality assurance"},
+              "DevOps": {"color": "6366f1", "description": "CI/CD and deployment"},
+              # Priorities
+              "High": {"color": "d1242f", "description": "Critical priority - do first"},
+              "Medium": {"color": "fbca04", "description": "Medium priority"},
+              "Low": {"color": "cccccc", "description": "Low priority - do later"},
+          }
+
+          print("🏷️  Creating labels...\n")
+
+          for label_name, label_config in labels.items():
+              color = label_config["color"]
+              description = label_config["description"]
+
+              print(f"  {label_name}...", end=" ")
+
+              if dry_run:
+                  print("(DRY RUN)")
+              else:
+                  try:
+                      subprocess.run(
+                          ["gh", "label", "create", label_name,
+                           "--color", color,
+                           "--description", description,
+                           "--force"],
+                          capture_output=True,
+                          text=True,
+                          check=True
+                      )
+                      print("✅")
+                  except subprocess.CalledProcessError as e:
+                      if "already exists" in e.stderr:
+                          print("(already exists)")
+                      else:
+                          print(f"❌ Error: {e.stderr}")
+
+          print("\n✅ Labels ready!\n")
+          EOF
+
       - name: Create GitHub Issues
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

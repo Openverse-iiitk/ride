@@ -1,7 +1,32 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Krisha';
+  src: url('/fonts/Krisha-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Demon Stars';
+  src: url('/fonts/demon-stars.regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('/fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 :root {
-  --background: #ffffff;
+  --background: #ebeff8;
   --foreground: #171717;
 }
 
@@ -12,15 +37,131 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Ride landing page ──────────────────────────── */
+
+.ride-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 650px;
+  background: #ebeff8;
+  overflow: hidden;
+}
+
+.ride-title {
+  position: absolute;
+  top: clamp(4px, 0.8vh, 16px);
+  left: clamp(8px, 1.5vw, 22px);
+  font-family: 'Krisha', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: #4b51f1;
+  font-size: clamp(60px, 19.5vw, 300px);
+  line-height: 1;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ride-nav {
+  position: absolute;
+  top: clamp(14px, 3vh, 27px);
+  right: clamp(16px, 3.8vw, 60px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+}
+
+.ride-btn {
+  background-color: #4c51f3;
+  border: none;
+  border-radius: 60px;
+  height: clamp(36px, 5.4vh, 49px);
+  width: clamp(110px, 10.8vw, 155px);
+  cursor: pointer;
+  color: #ffffff;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.ride-btn:hover {
+  background-color: #3a3fd4;
+  transform: translateY(-2px);
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.github-link:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.pixel-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #007bff;
+  transform-origin: center;
+}
+
+.car-wrapper {
+  position: absolute;
+  left: 4.72%;
+  top: calc(32vh - 20px);
+  width: 93.4%;
+  height: 50vh;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+  transform: scale(0.8);
+}
+
+.tagline {
+  position: absolute;
+  left: 20.6vw;
+  bottom: 4vh;
+  font-family: 'Demon Stars', var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-style: italic;
+  color: #3a45ff;
+  font-size: clamp(28px, 7.9vw, 114px);
+  line-height: 0.84;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.tagline p {
+  margin: 0;
+}
+
+.tagline p + p {
+  margin-top: 0.09em;
+}
+
+.pixel-font {
+  font-family: 'Pixelify Sans', var(--font-pixelify), monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-alt {
+  font-style: normal;
 }
